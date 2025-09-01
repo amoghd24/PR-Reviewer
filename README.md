@@ -154,9 +154,6 @@ By following this roadmap, you'll learn:
 - [Opik Observability Platform](https://www.comet.com/opik)
 - [Decoding ML Course](https://github.com/decodingml/enterprise-mcp-series)
 
-## 📄 License
-
-MIT License - see LICENSE file for details
 
 ## 🤝 Contributing
 
