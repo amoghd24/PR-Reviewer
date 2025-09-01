@@ -11,6 +11,7 @@ from dotenv import load_dotenv
 from fastmcp import FastMCP
 
 from utils.logger import get_logger
+import opik
 from .tools.get_pull_request import get_pull_request
 from .tools.get_pull_request_diff import get_pull_request_diff
 from .tools.get_pull_request_files import get_pull_request_files
@@ -25,6 +26,9 @@ load_dotenv()
 # Configure logging
 logger = get_logger(__name__)
 
+# Configure Opik
+opik_client = opik.Opik()
+
 # Initialize FastMCP server
 app = FastMCP(
     name="github-mcp-server",
@@ -36,6 +40,7 @@ app = FastMCP(
     tags=["github", "pull_request", "details", "pr-reviewer"],
     description="Get comprehensive pull request information including metadata, author, and status"
 )
+@opik.track(name="github_get_pull_request")
 async def get_pull_request_tool(
     repo: str,
     pull_number: int
@@ -51,6 +56,7 @@ async def get_pull_request_tool(
     tags=["github", "pull_request", "diff", "pr-reviewer"],
     description="Get the unified diff for a pull request showing all code changes"
 )
+@opik.track(name="github_get_pull_request_diff")
 async def get_pull_request_diff_tool(
     repo: str,
     pull_number: int
@@ -66,6 +72,7 @@ async def get_pull_request_diff_tool(
     tags=["github", "pull_request", "files", "pr-reviewer"],
     description="Get the list of files changed in a pull request with their modifications"
 )
+@opik.track(name="github_get_pull_request_files")
 async def get_pull_request_files_tool(
     repo: str,
     pull_number: int
@@ -81,6 +88,7 @@ async def get_pull_request_files_tool(
     tags=["github", "pull_request", "comments", "pr-reviewer"],
     description="Get review comments and discussion for a pull request"
 )
+@opik.track(name="github_get_pull_request_comments")
 async def get_pull_request_comments_tool(
     repo: str,
     pull_number: int
@@ -96,6 +104,7 @@ async def get_pull_request_comments_tool(
     tags=["github", "pull_request", "reviews", "pr-reviewer"],
     description="Get formal reviews (approved, requested changes, comments) for a pull request"
 )
+@opik.track(name="github_get_pull_request_reviews")
 async def get_pull_request_reviews_tool(
     repo: str,
     pull_number: int
@@ -111,6 +120,7 @@ async def get_pull_request_reviews_tool(
     tags=["github", "pull_request", "status", "ci", "pr-reviewer"],
     description="Get status checks and CI/CD information for a pull request"
 )
+@opik.track(name="github_get_pull_request_status")
 async def get_pull_request_status_tool(
     repo: str,
     pull_number: int
@@ -126,6 +136,7 @@ async def get_pull_request_status_tool(
     tags=["github", "repository", "pull_requests", "list", "pr-reviewer"],
     description="List all pull requests for a repository with metadata including PR numbers and descriptions"
 )
+@opik.track(name="github_list_pull_requests")
 async def list_pull_requests_tool(
     repo: str,
     state: str = "all",

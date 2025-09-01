@@ -11,6 +11,7 @@ from dotenv import load_dotenv
 from fastmcp import FastMCP
 
 from utils.logger import get_logger
+import opik
 from .tools.post_message import post_message
 from .tools.get_last_messages import get_last_messages
 from .tools.get_channels import get_channels
@@ -20,6 +21,9 @@ load_dotenv()
 
 # Configure logging
 logger = get_logger(__name__)
+
+# Configure Opik
+opik_client = opik.Opik()
 
 # Initialize FastMCP server
 app = FastMCP(
@@ -32,6 +36,7 @@ app = FastMCP(
     tags=["slack", "message", "send", "pr-reviewer"],
     description="Post a message to a Slack channel with optional formatting and threading"
 )
+@opik.track(name="slack_post_message")
 async def post_message_tool(
     channel: str,
     text: Optional[str] = None,
@@ -59,6 +64,7 @@ async def post_message_tool(
     tags=["slack", "message", "retrieve", "pr-reviewer"],
     description="Get conversation history from a Slack channel with optional filtering and thread replies"
 )
+@opik.track(name="slack_get_messages")
 async def slack_conversation_history(
     channel: str,
     limit: int = 10,
@@ -80,6 +86,7 @@ async def slack_conversation_history(
     tags=["slack", "channel", "list", "pr-reviewer"],
     description="Get list of Slack channels with their IDs and information for message posting"
 )
+@opik.track(name="slack_get_channels")
 async def get_channels_tool(
     types: str = "public_channel,private_channel",
     exclude_archived: bool = True,
