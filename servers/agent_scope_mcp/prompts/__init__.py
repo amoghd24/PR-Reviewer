@@ -1,0 +1,1 @@
+"""Prompt templates and versioned prompt management for Agent Scope MCP."""
