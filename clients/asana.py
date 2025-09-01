@@ -137,7 +137,9 @@ class AsanaClient:
             return AsanaTask(**created_task)
             
         except httpx.HTTPStatusError as e:
-            logger.error(f"HTTP error creating task: {e.response.text}")
+            logger.error(f"HTTP error creating task: Status {e.response.status_code}")
+            logger.error(f"Response: {e.response.text}")
+            logger.error(f"Request data: {task_data}")
             raise
         except Exception as e:
             logger.error(f"Error creating task: {e}")

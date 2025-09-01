@@ -13,6 +13,7 @@ from fastmcp import FastMCP
 from utils.logger import get_logger
 from .tools.find_task import find_task
 from .tools.create_task import create_task
+from .tools.list_tasks import list_tasks
 
 # Load environment variables
 load_dotenv()
@@ -48,6 +49,20 @@ async def create_task_tool(
 ) -> dict:
     """Create a new Asana task."""
     return await create_task(name, notes, assignee, project_gid)
+
+
+@app.tool(
+    tags=["asana", "task", "list", "pr-reviewer"],
+    description="List Asana tasks with optional filters for project, assignee, and completion status"
+)
+async def list_tasks_tool(
+    project_gid: Optional[str] = None,
+    assignee: Optional[str] = None,
+    completed_since: Optional[str] = None,
+    limit: int = 50
+) -> dict:
+    """List Asana tasks with optional filters."""
+    return await list_tasks(project_gid, assignee, completed_since, limit)
 
 
 
