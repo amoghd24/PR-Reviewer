@@ -11,6 +11,7 @@ from dotenv import load_dotenv
 from fastmcp import FastMCP
 
 from utils.logger import get_logger
+import opik
 from .prompts.pr_review_prompt import PR_REVIEW_PROMPT
 
 # Load environment variables
@@ -18,6 +19,9 @@ load_dotenv()
 
 # Configure logging
 logger = get_logger(__name__)
+
+# Configure Opik
+opik_client = opik.Opik()
 
 # Initialize FastMCP server
 app = FastMCP(
@@ -30,6 +34,7 @@ app = FastMCP(
     name="pr_review_prompt",
     description="Prompt for reviewing pull requests with Asana task context"
 )
+@opik.track(name="agent_scope_pr_review_prompt")
 def pr_review_prompt(pr_id: str, repo_id: str) -> str:
     """
     Format the PR review prompt using the provided arguments.

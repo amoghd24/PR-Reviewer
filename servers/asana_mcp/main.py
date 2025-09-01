@@ -11,6 +11,8 @@ from dotenv import load_dotenv
 from fastmcp import FastMCP
 
 from utils.logger import get_logger
+import opik
+import os
 from .tools.find_task import find_task
 from .tools.create_task import create_task
 from .tools.list_tasks import list_tasks
@@ -20,6 +22,11 @@ load_dotenv()
 
 # Configure logging
 logger = get_logger(__name__)
+
+# Configure Opik - let it create a default project automatically
+opik_client = opik.Opik()
+
+logger.info("Opik configured with default settings")
 
 # Initialize FastMCP server
 app = FastMCP(
@@ -32,6 +39,7 @@ app = FastMCP(
     tags=["asana", "task", "search", "pr-reviewer"],
     description="Find an Asana task by its Global ID (GID)"
 )
+@opik.track(name="asana_find_task")
 async def find_task_tool(task_gid: str) -> dict:
     """Find an Asana task by its GID."""
     return await find_task(task_gid)
@@ -41,6 +49,7 @@ async def find_task_tool(task_gid: str) -> dict:
     tags=["asana", "task", "create", "pr-reviewer"],
     description="Create a new Asana task with optional assignee and project"
 )
+@opik.track(name="asana_create_task")
 async def create_task_tool(
     name: str,
     notes: Optional[str] = None,
@@ -55,6 +64,7 @@ async def create_task_tool(
     tags=["asana", "task", "list", "pr-reviewer"],
     description="List Asana tasks with optional filters for project, assignee, and completion status"
 )
+@opik.track(name="asana_list_tasks")
 async def list_tasks_tool(
     project_gid: Optional[str] = None,
     assignee: Optional[str] = None,
