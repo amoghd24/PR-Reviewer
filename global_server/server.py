@@ -1,7 +1,8 @@
-"""Global MCP Server - PR-5 Implementation.
+"""Global MCP Server - PR-6 Implementation.
 
 Main entry point for the global MCP server that aggregates all individual
-MCP servers into a unified system with centralized tool discovery and routing.
+MCP servers into a unified system with centralized tool discovery, routing,
+and advanced search capabilities.
 """
 
 import os
@@ -11,6 +12,7 @@ from typing import Dict, Any
 from dotenv import load_dotenv
 from utils.logger import get_logger
 from global_server.registry import McpServersRegistry
+from global_server.api_tools.registry_api import register_api_tools
 
 # Load environment variables
 load_dotenv()
@@ -31,6 +33,10 @@ async def initialize_global_server() -> McpServersRegistry:
     # Create and initialize the registry
     mcp_registry = McpServersRegistry()
     await mcp_registry.initialize()
+    
+    # Register registry API tools
+    app = mcp_registry.get_registry()
+    await register_api_tools(app, mcp_registry)
     
     logger.info("Global MCP Server initialization complete")
     return mcp_registry
@@ -145,8 +151,10 @@ def main():
         # Run initialization
         asyncio.run(init_registry())
         
-        # Get the FastMCP instance and run it
+        # Register API tools
         app = registry.get_registry()
+        asyncio.run(register_api_tools(app, registry))
+        
         logger.info("Global MCP Server is ready to handle requests")
         app.run()
         
