@@ -165,11 +165,11 @@ This roadmap follows enterprise software engineering principles:
 ## Phase 3: Host Implementation - FastAPI Wrapper Client
 *Goal: Create the orchestration layer that coordinates all MCP servers*
 
-### PR-7: MCP Host Foundation
+### PR-7: MCP Client Foundation
 **Objective**: Build the core host that manages MCP client connections
 
 **Technical Scope**:
-- `MCPHost` class with connection management
+- `MCPClient` class with connection management
 - `ConnectionManager` for persistent MCP sessions
 - Support for both stdio and streamable-http transports
 - Session lifecycle management and cleanup
