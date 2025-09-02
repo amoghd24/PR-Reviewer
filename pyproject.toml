@@ -20,34 +20,30 @@ dependencies = [
     # Core MCP Framework
     "fastmcp>=0.1.0",
     "mcp>=1.0.0",
-    
     # Asana Integration (PR-1 requirement)
     "asana>=5.0.0",
-    
     # Web Framework
     "fastapi>=0.104.0",
     "uvicorn[standard]>=0.24.0",
-    
     # HTTP Clients
     "httpx>=0.25.0",
     "aiohttp>=3.9.0",
-    
     # LLM Integration
     "google-generativeai>=0.3.0",
-    
     # Observability
     "opik>=0.1.0",
     "structlog>=23.2.0",
-    
     # Security & Authentication
     "python-jose[cryptography]>=3.3.0",
     "passlib[bcrypt]>=1.7.4",
     "python-multipart>=0.0.6",
-    
     # Utilities
     "python-dotenv>=1.0.0",
     "pydantic>=2.4.0",
     "anyio>=4.0.0",
+    "langchain-google-genai>=2.0.10",
+    "langchain>=0.3.27",
+    "langgraph>=0.6.6",
 ]
 
 [project.optional-dependencies]
