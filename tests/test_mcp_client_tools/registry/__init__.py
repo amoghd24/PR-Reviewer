@@ -1,0 +1,1 @@
+"""Registry API tool integration tests."""
